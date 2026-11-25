@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساباتي على التواصل الاجتماعي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        /* متغيرات الألوان للوضع الليلي (الافتراضي) */
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            --container-bg: rgba(255, 255, 255, 0.05);
+            --container-border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-sub: #94a3b8;
+            --card-bg: rgba(255, 255, 255, 0.07);
+            --card-border: rgba(255, 255, 255, 0.08);
+            --card-hover: rgba(255, 255, 255, 0.14);
+            --btn-icon-bg: rgba(255, 255, 255, 0.1);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        /* متغيرات الألوان للوضع النهاري */
+        body.light-mode {
+            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 50%, #f8fafc 100%);
+            --container-bg: rgba(255, 255, 255, 0.85);
+            --container-border: rgba(0, 0, 0, 0.08);
+            --text-main: #0f172a;
+            --text-sub: #475569;
+            --card-bg: #ffffff;
+            --card-border: rgba(0, 0, 0, 0.08);
+            --card-hover: #f8fafc;
+            --btn-icon-bg: rgba(15, 23, 42, 0.06);
+            --shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            padding: 20px;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 460px;
+            background: var(--container-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--container-border);
+            border-radius: 28px;
+            padding: 45px 25px 35px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            animation: fadeIn 0.8s ease-out;
+            transition: all 0.4s ease;
+        }
+
+        /* أزرار التحكم العلوية (نسخ الرابط وتبديل الوضع) */
+        .top-actions {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            right: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .action-btn {
+            background: var(--btn-icon-bg);
+            border: 1px solid var(--container-border);
+            color: var(--text-main);
+            height: 38px;
+            padding: 0 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn.icon-only {
+            width: 38px;
+            padding: 0;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            border-color: #38bdf8;
+        }
+
+        /* صورة البروفايل */
+        .profile-img-wrapper {
+            width: 115px;
+            height: 115px;
+            margin: 10px auto 18px;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid #38bdf8;
+            padding: 3px;
+            background: var(--card-bg);
+            transition: transform 0.3s ease;
+        }
+
+        .profile-img:hover {
+            transform: scale(1.05);
+        }
+
+        .name {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .bio {
+            font-size: 0.95rem;
+            color: var(--text-sub);
+            margin-bottom: 28px;
+            line-height: 1.6;
+        }
+
+        /* قائمة الروابط */
+        .links-list {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .link-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 22px;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .link-card i.platform-icon {
+            font-size: 1.4rem;
+            width: 30px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .link-card i.arrow-icon {
+            font-size: 0.9rem;
+            opacity: 0.5;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
+
+        .link-card:hover {
+            transform: translateY(-4px);
+            background: var(--card-hover);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .link-card:hover i.platform-icon {
+            transform: scale(1.15);
+        }
+
+        .link-card:hover i.arrow-icon {
+            opacity: 1;
+            transform: translateX(-4px);
+        }
+
+        /* ألوان المنصات */
+        .instagram:hover { border-color: #e1306c; }
+        .instagram i.platform-icon { color: #e1306c; }
+
+        .twitter:hover { border-color: #38bdf8; }
+        .twitter i.platform-icon { color: #38bdf8; }
+
+        .linkedin:hover { border-color: #0a66c2; }
+        .linkedin i.platform-icon { color: #0a66c2; }
+
+        .youtube:hover { border-color: #ff0000; }
+        .youtube i.platform-icon { color: #ef4444; }
+
+        .tiktok:hover { border-color: #00f2fe; }
+        .tiktok i.platform-icon { color: #06b6d4; }
+
+        .whatsapp:hover { border-color: #25d366; }
+        .whatsapp i.platform-icon { color: #25d366; }
+
+        /* رسالة التنبيه عند النسخ */
+        .toast {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #10b981;
+            color: #ffffff;
+            padding: 10px 22px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- أزرار التحكم العلوية -->
+        <div class="top-actions">
+            <button class="action-btn" onclick="copyLink()" title="نسخ رابط الصفحة">
+                <i class="fa-solid fa-share-nodes"></i>
+                <span>مشاركة</span>
+            </button>
+            <button class="action-btn icon-only" id="themeBtn" onclick="toggleTheme()" title="تبديل المظهر">
+                <i class="fa-solid fa-sun"></i>
+            </button>
+        </div>
+
+        <!-- الصورة الشخصية -->
+        <div class="profile-img-wrapper">
+            <img src="pppp.jpeg" alt="الصورة الشخصية" class="profile-img">
+        </div>
+
+        <!-- الاسم والنبذة -->
+        <h1 class="name">Youssef sherif</h1>
+        <p class="bio"> <br>تواصل معي وتابعني على جميع منصاتي الرسمية</p>
+
+        <!-- أزرار الروابط -->
+        <div class="links-list">
+            <a href="https://www.instagram.com/uouseefhsrif?lqvp=MXV1cjBwNmpiZnRiYw==" target="_blank" class="link-card instagram">
+                <i class="fa-brands fa-instagram platform-icon"></i>
+                <span>إنستغرام (Instagram)</span>
+                <i class="fa-solid fa-arrow-left arrow-icon"></i>
+            </a>
+
+            <a href="https://x.com/YousefShriuliy" target="_blank" class="link-card twitter">
+                <i class="fa-brands fa-x-twitter platform-icon"></i>
+                <span>منصة إكس (X)</span>
+                <i class="fa-solid fa-arrow-left arrow-icon"></i>
+            </a>
+
+            <a href="https://linkedin.com" target="_blank" class="link-card linkedin">
+                <i class="fa-brands fa-linkedin-in platform-icon"></i>
+                <span>لينكد إن (LinkedIn)</span>
+                <i class="fa-solid fa-arrow-left arrow-icon"></i>
+            </a>
+
+            <a href="https://youtube.com/@yousef-u6i6s?si=nFqHI2FRWFJ1DcYI" target="_blank" class="link-card youtube">
+                <i class="fa-brands fa-youtube platform-icon"></i>
+                <span>يوتيوب (YouTube)</span>
+                <i class="fa-solid fa-arrow-left arrow-icon"></i>
+            </a>
+
+            <a href="https://www.tiktok.com/@youssefshrief41?_r=1&_t=ZS-9BhhT3bTBH0" target="_blank" class="link-card tiktok">
+                <i class="fa-brands fa-tiktok platform-icon"></i>
+                <span>تيك توك (TikTok)</span>
+                <i class="fa-solid fa-arrow-left arrow-icon"></i>
+            </a>
+
+            <a href="https://wa.me/201507893493" target="_blank" class="link-card whatsapp">
+                <i class="fa-brands fa-whatsapp platform-icon"></i>
+                <span>تواصل مباشر واتساب</span>
+                <i class="fa-solid fa-arrow-left arrow-icon"></i>
+            </a>
+        </div>
+
+        <div class="footer">
+            جميع الحقوق محفوظة © 2026
+        </div>
+    </div>
+
+    <!-- رسالة تأكيد النسخ -->
+    <div id="toast" class="toast">
+        <i class="fa-solid fa-circle-check"></i> تم نسخ رابط الصفحة بنجاح!
+    </div>
+
+    <script>
+        // دالة تبديل الوضع الليلي والنهاري
+        function toggleTheme() {
+            const body = document.body;
+            const themeIcon = document.querySelector('#themeBtn i');
+            
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        }
+
+        // دالة نسخ رابط الصفحة وإظهار التنبيه
+        function copyLink() {
+            navigator.clipboard.writeText(window.location.href).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2500);
+            });
+        }
+    </script>
+
+</body>
+</html>
